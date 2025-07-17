@@ -15,7 +15,7 @@ It detects signs of drowsiness (like prolonged eye closure or yawning) in real t
 
 ## 📂 Project Structure
 driver_drowsiness_detection/
-├── shape_predictor_68_face_landmarks.dat
-├── main.py
-├── utils.py
+├── data(shape_predictor_68_face_landmarks.dat)
+├── driverdrowsiness.py
+├── alarm.wav
 └── README.md
