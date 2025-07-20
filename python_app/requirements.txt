@@ -1,0 +1,7 @@
+opencv-python
+dlib
+pygame
+numpy
+tensorflow
+scikit-learn
+matplotlib
