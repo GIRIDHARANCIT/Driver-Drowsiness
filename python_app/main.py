@@ -4,9 +4,6 @@ import numpy as np
 from tensorflow.keras.models import load_model
 import pygame
 import os
-
-# -----------------------------------------------------------
-# Load CNN model and shape predictor
 model = load_model('python_app/model/drowsiness_model.h5')
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 predictor_path = os.path.join(BASE_DIR, 'shape_predictor', 'shape_predictor_68_face_landmarks.dat')
