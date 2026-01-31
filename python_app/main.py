@@ -13,20 +13,12 @@ predictor_path = os.path.join(BASE_DIR, 'shape_predictor', 'shape_predictor_68_f
 
 predictor = dlib.shape_predictor(predictor_path)
 detector = dlib.get_frontal_face_detector()
-
-# Initialize Pygame for sound alert
 pygame.mixer.init()
-alert_sound = pygame.mixer.Sound('alert.wav')  # add an alert.wav file in python_app/
-
-# -----------------------------------------------------------
-# Get eye regions from face landmarks
+alert_sound = pygame.mixer.Sound('alert.wav') 
 def get_eye_regions(shape):
-    # Left eye landmarks: 36-41, Right eye: 42-47
     left_eye = shape[36:42]
     right_eye = shape[42:48]
     return left_eye, right_eye
-
-# Crop and preprocess eye image
 def crop_eye(frame, eye_points):
     x = np.min(eye_points[:,0])
     y = np.min(eye_points[:,1])
@@ -37,9 +29,6 @@ def crop_eye(frame, eye_points):
     eye_img = cv2.resize(eye_img, (64, 64))
     eye_img = eye_img.reshape(1, 64, 64, 1) / 255.0
     return eye_img
-
-# -----------------------------------------------------------
-# Start webcam
 cap = cv2.VideoCapture(0)
 print("🚀 Starting webcam... Press 'q' to quit.")
 
@@ -57,19 +46,11 @@ while True:
 
         for i in range(68):
             shape_np[i] = (shape.part(i).x, shape.part(i).y)
-
-        # Get eye regions
         left_eye, right_eye = get_eye_regions(shape_np)
-
-        # Draw eye landmarks
         for (x, y) in np.concatenate((left_eye, right_eye)):
             cv2.circle(frame, (x, y), 2, (0, 255, 0), -1)
-
-        # Predict each eye
         left_eye_img = crop_eye(frame, left_eye)
         right_eye_img = crop_eye(frame, right_eye)
-
-        # Average predictions
         pred_left = model.predict(left_eye_img)[0][0]
         pred_right = model.predict(right_eye_img)[0][0]
         avg_pred = (pred_left + pred_right) / 2
